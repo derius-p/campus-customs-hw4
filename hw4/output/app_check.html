@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Campus Customs: App Check</title>
+<style>
+  :root { --blue: #00356b; --ink: #14213d; --muted: #5d6677; --line: #e2ddd2; --pass: #2e7d4f; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: #faf8f3; line-height: 1.55; }
+  header { background: var(--blue); color: #fff; padding: 28px 40px; }
+  header h1 { margin: 0 0 6px; font-size: 1.9rem; }
+  header p { margin: 0; opacity: 0.85; }
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 40px 60px; }
+  .summary { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 8px 0 30px; }
+  .summary th, .summary td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .summary th { background: #f2eee4; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .summary tr:last-child td { border-bottom: none; }
+  .pass { color: var(--pass); font-weight: 700; white-space: nowrap; }
+  section { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 24px 26px; margin-bottom: 28px; }
+  section h2 { margin: 0 0 4px; color: var(--blue); }
+  .tag { display: inline-block; font-size: 0.75rem; font-weight: 700; color: #fff; background: var(--pass); border-radius: 999px; padding: 2px 10px; margin-left: 8px; vertical-align: middle; }
+  .proves { font-size: 1.05rem; margin: 10px 0 16px; }
+  figure { margin: 0; }
+  figure img { width: 100%; border: 1px solid var(--line); border-radius: 8px; display: block; }
+  figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  details { margin-top: 14px; font-size: 0.92rem; }
+  summary { cursor: pointer; font-weight: 600; color: var(--blue); }
+  details dl { display: grid; grid-template-columns: 170px 1fr; gap: 6px 14px; margin: 10px 0 0; }
+  dt { color: var(--muted); }
+  dd { margin: 0; }
+  code { background: #f2eee4; padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+  .how { font-size: 0.92rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Campus Customs: App Check</h1>
+  <p>Yale Bulldog Blue by Campus Customs · HW4 Problem 11 · Tested September 27, 2026</p>
+</header>
+<main>
+  <p class="how">
+    <strong>How these were run:</strong> the live site (React front end at <code>localhost:5173</code>, FastAPI backend at
+    <code>localhost:8000</code>) in a fresh browser session as a guest. Each chat answer is a real reply from the
+    PydanticAI agent (<code>gpt-5.6-luna</code> via Portkey), which reads <code>data/campus_customs.db</code> through its tools.
+    Expected values were checked against the database directly.
+  </p>
+
+  <table class="summary">
+    <thead><tr><th>#</th><th>Check</th><th>Result</th><th>Screenshot</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Chat reports price and inventory for an item from the database</td><td class="pass">✓ Pass</td><td><a href="#check-1">inventory.png</a></td></tr>
+      <tr><td>2</td><td>Dynamic search-result cards appear on the page after a category question</td><td class="pass">✓ Pass</td><td><a href="#check-2">search_results.png</a></td></tr>
+      <tr><td>3</td><td>Usability feature (Problem 9, B1): in-stock alternatives when a size is sold out</td><td class="pass">✓ Pass</td><td><a href="#check-3">usability_sold_out_alternatives.png</a></td></tr>
+    </tbody>
+  </table>
+
+  <section id="check-1">
+    <h2>1. Chat checks price and inventory from the database <span class="tag">PASS</span></h2>
+    <p class="proves">
+      Asked about the Basic Hoodie Big Yale, the assistant answered <strong>$68.00</strong> and <strong>2 in XL (low stock)</strong>,
+      exactly the database values, and the product page beside it shows the same "Only 2 left in XL."
+    </p>
+    <figure>
+      <img src="app_check_images/inventory.png" alt="Chat answering the price and XL stock of the Basic Hoodie Big Yale next to its product page" />
+      <figcaption>Product page for Basic Hoodie Big Yale with size XL selected; chat reply on the right.</figcaption>
+    </figure>
+    <details>
+      <summary>Test details</summary>
+      <dl>
+        <dt>Question asked</dt><dd>"How much is the Basic Hoodie Big Yale, and how many do you have in XL?"</dd>
+        <dt>Assistant reply</dt><dd>"The Basic Hoodie Big Yale is $68.00. We have 2 in XL—low stock."</dd>
+        <dt>Database</dt><dd><code>catalogue.price</code> = 68.0; <code>inventory</code> XL = 2 (all sizes: XS 15, S 5, M 5, L 8, XL 2, XXL 25)</dd>
+        <dt>Tool used</dt><dd><code>get_product_info</code> (reads <code>catalogue</code> and <code>inventory</code>)</dd>
+      </dl>
+    </details>
+  </section>
+
+  <section id="check-2">
+    <h2>2. Dynamic search-result cards after a category question <span class="tag">PASS</span></h2>
+    <p class="proves">
+      After asking "What hoodies do you have?" from the Home page, the main page switched to a <strong>"Yale hoodies"</strong> results grid of
+      all <strong>27</strong> hoodies (matching the 27 hoodies in the database), while the chat shows its top picks as scrollable cards with a
+      "See all 27 on the page" link.
+    </p>
+    <figure>
+      <img src="app_check_images/search_results.png" alt="Products page showing Yale hoodies chat results grid with chat cards on the right" />
+      <figcaption>Page at <code>/products?view=chat</code>: "From your chat · Yale hoodies · 27 products", product cards, and chat cards.</figcaption>
+    </figure>
+    <details>
+      <summary>Test details</summary>
+      <dl>
+        <dt>Question asked</dt><dd>"What hoodies do you have?" (asked on the Home page)</dd>
+        <dt>Page after reply</dt><dd>Navigated to <code>/products?view=chat</code>; heading "Yale hoodies"; 27 product cards</dd>
+        <dt>Chat cards</dt><dd>Basic Hoodie Big Yale, Champion Reverse Weave Hoodie 1, District Vit Hoodie Vintage Bulldog, Yale Sports Hoodie Hockey, Champion Full Zip Hood, Yale Dad Hoodie</dd>
+        <dt>How it works</dt><dd>The agent returns <code>page_results</code>; the API turns the ids into product cards from the database; the site shows them on the Products page. Clicking a card opens that product's page.</dd>
+      </dl>
+    </details>
+  </section>
+
+  <section id="check-3">
+    <h2>3. Usability feature: in-stock alternatives for a sold-out size <span class="tag">PASS</span></h2>
+    <p class="proves">
+      On the Davenport College Crewneck page (size S shown as sold out), asking "Is this in a small?" got a clear
+      <strong>"Size S is out of stock"</strong> plus three similar crewnecks that <strong>do</strong> have size S, shown as cards. The customer
+      didn't have to name the product, and gets options instead of a dead end.
+    </p>
+    <figure>
+      <img src="app_check_images/usability_sold_out_alternatives.png" alt="Davenport College Crewneck page with size S sold out and chat suggesting three in-stock alternatives" />
+      <figcaption>Size S struck through on the page; chat reply with alternatives and their product cards.</figcaption>
+    </figure>
+    <details>
+      <summary>Test details</summary>
+      <dl>
+        <dt>Feature</dt><dd>Problem 9, B1: <code>find_similar_items</code> / <code>similar_in_stock</code> (see <code>output/usability.md</code>)</dd>
+        <dt>Question asked</dt><dd>"Is this in a small?" (on the Davenport College Crewneck page)</dd>
+        <dt>Database</dt><dd>Davenport College Crewneck S = 0. Suggested items in S: Jonathan Edwards College Crewneck 25, Grace Hopper College Crewneck 8, Pierson College Crewneck 2</dd>
+        <dt>Why these</dt><dd>Same style (crewneck) and another residential college design, similar price, size S in stock</dd>
+      </dl>
+    </details>
+  </section>
+</main>
+</body>
+</html>
