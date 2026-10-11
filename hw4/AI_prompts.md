@@ -1,5 +1,7 @@
 # AI Prompts: HW4 (Campus Customs)
 
+**Note on the folder name:** this project was built in a folder first named `HW3` (I worked on HW4 before HW3), which is why the Problem 1 follow-up says "new project called HW3". The folder was later renamed `hw4` for submission.
+
 ## Problem 1: Vibe Coder Prompts
 
 **Prompt:**
@@ -9,6 +11,8 @@
 **Follow-up:**
 
 > ok new project called HW3 - see the folder in our main directory? there is some source information there
+
+*What was lacking:* the first prompt set up the project but didn't tell the vibe coder where the course data and source files were, so I pointed it to the project folder.
 
 ## Problem 2: Analyze the database
 
@@ -44,6 +48,8 @@
 
 > the chatbot used the word 'surfaced' in a jargon-y way. Is there a way to get the chatbot to not use jargon?
 
+*What was lacking:* the tools worked, but the chatbot's replies used jargon like "surfaced" that a shop assistant wouldn't say to a customer.
+
 ## Problem 7: Chat search that updates the page
 
 **Prompt:**
@@ -66,6 +72,8 @@
 
 > let's go with your recommendation (F1, F2, B1, B2)
 
+*What was lacking:* my first prompt only asked for ideas, so this follow-up chose which four improvements to build.
+
 ## Problem 10: Style the website
 
 **Prompt:**
@@ -76,29 +84,43 @@
 
 > The Y in the circle and the font for "Yale" do not match the Yale look/font but should. We are a licensed retailer and can use that. I don't like "We're just off campus" - it's okay to say we are in the commercial heart of Yale at 57 Broadway
 
+*What was lacking:* the first pass's Y logo and "Yale" lettering didn't match the official Yale look, and the copy said "just off campus" instead of naming our 57 Broadway location.
+
 **Follow-up:**
 
 > the only thing is that the Y by itself in the circle should match the athletic Y which is symmetric across a vertical line in the center. Can you see what the Y's look like in YALE on the clothes items? That's what the Y should look like in this context
+
+*What was lacking:* the new Y still didn't match the symmetric athletic Y printed on our merchandise.
 
 **Follow-up:**
 
 > it's not a good match. Look at the YALE in the top left of this website
 
+*What was lacking:* the revised Y still wasn't a close match, so I pointed to the YALE wordmark at the top left of yalebulldogblue.com as the reference.
+
 **Follow-up:**
 
 > yes do that, but also reverse color on the Y and center it better in the white ring it will be in
+
+*What was lacking:* the proposed Y was right, but its colors needed reversing and it wasn't centered in its white ring.
 
 **Follow-up:**
 
 > the Yale above bulldogblue looks like it's right justified rather than centered. It will look better centered
 
+*What was lacking:* "Yale" above "Bulldog Blue" in the logo was right-aligned instead of centered.
+
 **Follow-up:**
 
 > ok just make the white circle around the Y thinner - maybe half the thickness
 
+*What was lacking:* the white ring around the Y was too thick.
+
 **Follow-up:**
 
 > ok let's go with this
+
+*What was lacking:* nothing; this approved the final design.
 
 ## Problem 11: Site testing (app check)
 
